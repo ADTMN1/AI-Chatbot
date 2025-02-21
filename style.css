@@ -133,6 +133,12 @@ body {
     border-radius: 13px 13px 3px 13px;
 }
 
+.chat-body .user-message .attachment {
+    width: 50%;
+    margin-top: -7px;
+    border-radius: 13px 3px 13px 13px;
+}
+
 .chat-body .bot-message .thinking-indicator {
     display: flex;
     gap: 4px;
@@ -245,4 +251,24 @@ body {
 
 .chat-form .chat-controls button:hover {
     background: #f1f1ff;
+}
+
+.chat-form .file-upload-wrapper {
+    height: 35px;
+    width: 35px;
+    position: relative;
+}
+
+.chat-form .file-upload-wrapper img {
+    position: absolute;
+    display: none;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+
+.chat-form .file-upload-wrapper.file-uploaded img {
+    display: block;
 }
