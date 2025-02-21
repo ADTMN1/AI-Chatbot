@@ -3,6 +3,9 @@ const chatBody = document.querySelector(".chat-body");
 const messageInput = document.querySelector(".message-input")
 const sendMessageButton = document.querySelector("#send-message")
 
+const API_KEY = "AIzaSyBYmGhZhJDq3yejaXoEjrFYSOpa0aAIoBc";
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+
 const userData = {
     message: null
 }
@@ -13,6 +16,26 @@ const createMessageElement = (content, ...classes) => {
     div.innerHTML = content;
     return div;
 
+}
+
+const generateBotResponse = async () => {
+    const requestOptions = {
+        method: "POST",
+        headers: { "content-Type": "application/json" },
+        body: JSON.stringify({
+            contents: [{
+                parts: [{ text: userData.message }]
+            }]
+        })
+    }
+    try {
+        const response = await fetch(API_URL, requestOptions)
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error.message)
+        console.log(data)
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 const handleOutgoingMessage = (e) => {
@@ -43,6 +66,7 @@ const handleOutgoingMessage = (e) => {
 
         const incomingMessageDiv = createMessageElement(messageContent, "bot-message", "thinking")
         chatBody.appendChild(incomingMessageDiv)
+        generateBotResponse()
     }, 600);
 }
 messageInput.addEventListener("keydown", (e) => {
