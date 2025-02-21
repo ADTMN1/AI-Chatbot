@@ -18,7 +18,9 @@ const createMessageElement = (content, ...classes) => {
 
 }
 
-const generateBotResponse = async () => {
+const generateBotResponse = async (incomingMessageDiv) => {
+    const messageElement = incomingMessageDiv.querySelector(".message-text");
+
     const requestOptions = {
         method: "POST",
         headers: { "content-Type": "application/json" },
@@ -32,9 +34,17 @@ const generateBotResponse = async () => {
         const response = await fetch(API_URL, requestOptions)
         const data = await response.json();
         if (!response.ok) throw new Error(data.error.message)
-        console.log(data)
+
+
+        const apiResponseText = data.candidates[0].content.parts[0].text.replace(/% %%.*?%%|\*/g, "").trim();
+        messageElement.innerText = apiResponseText;
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        messageElement.innerText = error.message;
+        messageElement.style.color = "#ff0000"
+    } finally {
+        incomingMessageDiv.classList.remove("thinking");
+        chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
     }
 }
 
@@ -47,7 +57,8 @@ const handleOutgoingMessage = (e) => {
 
     const outgoingMessageDiv = createMessageElement(messageContent, "user-message")
     outgoingMessageDiv.querySelector(".message-text").textContent = userData.message;
-    chatBody.appendChild(outgoingMessageDiv)
+    chatBody.appendChild(outgoingMessageDiv);
+    chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
 
     setTimeout(() => {
         const messageContent = `  <svg class="bot-avator" xmlns="http://www.w3.org/2000/svg" width="50" height="50"
@@ -65,8 +76,9 @@ const handleOutgoingMessage = (e) => {
                 </div>`;
 
         const incomingMessageDiv = createMessageElement(messageContent, "bot-message", "thinking")
-        chatBody.appendChild(incomingMessageDiv)
-        generateBotResponse()
+        chatBody.appendChild(incomingMessageDiv);
+        chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
+        generateBotResponse(incomingMessageDiv)
     }, 600);
 }
 messageInput.addEventListener("keydown", (e) => {
