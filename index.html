@@ -43,7 +43,8 @@
                 <textarea placeholder="message..." class="message-input" required></textarea>
                 <div class="chat-controls">
 
-                    <button type="button" class="material-symbols-rounded">sentiment_satisfied</button>
+                    <button type="button" id="emoji-picker"
+                        class="material-symbols-rounded">sentiment_satisfied</button>
                     <div class="file-upload-wrapper">
                         <input type="file" accept="images*" id="file-input" hidden>
                         <img src="#">
@@ -55,6 +56,8 @@
             </form>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
     <script src="script.js"></script>
 </body>
 
