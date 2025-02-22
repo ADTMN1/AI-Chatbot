@@ -7,6 +7,14 @@
     font-family: "Inter", serif;
 }
 
+.welcome {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: #1E2044;
+    color: #DF3079;
+}
+
 body {
     min-height: 100vh;
     background: linear-gradient(#EEEEFF, #212121);
