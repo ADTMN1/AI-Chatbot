@@ -21,6 +21,8 @@ const userData = {
     }
 }
 
+const initialInputHeight = messageInput.scrollHeight;
+
 const createMessageElement = (content, ...classes) => {
     const div = document.createElement("div")
     div.classList.add("message", ...classes);
@@ -67,7 +69,8 @@ const handleOutgoingMessage = (e) => {
     e.preventDefault()
     userData.message = messageInput.value.trim();
     messageInput.value = "";
-    fileUploadWrapper.classList.remove("file-uploaded")
+    fileUploadWrapper.classList.remove("file-uploaded");
+    messageInput.dispatchEvent(new Event("input"))
 
     const messageContent = `<div class="message-text"></div>${userData.file.data ? `<img src="data:${userData.file.mime_type};base64,${userData.file.data}" class="attachment" />` : ""}`;
 
@@ -99,10 +102,16 @@ const handleOutgoingMessage = (e) => {
 }
 messageInput.addEventListener("keydown", (e) => {
     const userMessage = e.target.value.trim();
-    if (e.key === "Enter" && userMessage) {
+    if (e.key === "Enter" && userMessage && !e.shiftKey && window.innerWidth > 768) {
         handleOutgoingMessage(e)
     }
 });
+
+messageInput.addEventListener("input", () => {
+    messageInput.style.height = `${initialInputHeight}px`
+    messageInput.style.height = `${messageInput.scrollHeight}px`
+    document.querySelector(".chat-form").style.borderRadius = messageInput.scrollHeight > initialInputHeight ? "15px" : "32px"
+})
 
 fileInput.addEventListener("change", () => {
     const file = fileInput.files[0];
