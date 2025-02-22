@@ -6,11 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Chatbot</title>
     <!-- Updated link to Material Symbols Rounded -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded&family=Material+Symbols+Outlined&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <button id="chatbot-toggler">
+        <span class="material-symbols-rounded">mode_comment</span>
+        <span class="material-symbols-rounded">close</span>
+    </button>
     <div class="chatbot-popup">
         <div class="chat-header">
             <div class="header-info">
@@ -44,7 +50,7 @@
                 <div class="chat-controls">
 
                     <button type="button" id="emoji-picker"
-                        class="material-symbols-rounded">sentiment_satisfied</button>
+                        class="material-symbols-outlined">sentiment_satisfied</button>
                     <div class="file-upload-wrapper">
                         <input type="file" accept="images*" id="file-input" hidden>
                         <img src="#">

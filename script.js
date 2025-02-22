@@ -5,6 +5,10 @@ const sendMessageButton = document.querySelector("#send-message")
 const fileInput = document.querySelector("#file-input")
 const fileUploadWrapper = document.querySelector(".file-upload-wrapper");
 const fileCancelButton = document.querySelector("#file-cancel");
+const chatbotToggler = document.querySelector("#chatbot-toggler");
+const closeChatBot = document.querySelector("#close-chatbot");
+
+
 
 const API_KEY = "AIzaSyBYmGhZhJDq3yejaXoEjrFYSOpa0aAIoBc";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
@@ -147,3 +151,5 @@ document.querySelector(".chat-form").appendChild(picker)
 
 sendMessageButton.addEventListener("click", (e) => handleOutgoingMessage(e));
 document.querySelector('#file-upload').addEventListener("click", () => fileInput.click());
+chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"))
+closeChatBot.addEventListener("click", () => document.body.classList.remove("show-chatbot"))
