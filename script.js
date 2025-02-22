@@ -20,7 +20,7 @@ const userData = {
         mime_type: null
     }
 }
-
+const chatHistory = [];
 const initialInputHeight = messageInput.scrollHeight;
 
 const createMessageElement = (content, ...classes) => {
@@ -33,17 +33,19 @@ const createMessageElement = (content, ...classes) => {
 
 const generateBotResponse = async (incomingMessageDiv) => {
     const messageElement = incomingMessageDiv.querySelector(".message-text");
+    chatHistory.push({
+        role: "user",
+        parts: [
+            { text: userData.message },
+            ...(userData.file.data ? [{ inline_data: userData.file }] : [])
+        ]
+    })
 
     const requestOptions = {
         method: "POST",
         headers: { "content-Type": "application/json" },
         body: JSON.stringify({
-            contents: [{
-                parts: [
-                    { text: userData.message },
-                    ...(userData.file.data ? [{ inline_data: userData.file }] : [])
-                ]
-            }]
+            contents: chatHistory
         })
     }
     try {
@@ -54,6 +56,13 @@ const generateBotResponse = async (incomingMessageDiv) => {
 
         const apiResponseText = data.candidates[0].content.parts[0].text.replace(/% %%.*?%%|\*/g, "").trim();
         messageElement.innerText = apiResponseText;
+
+        chatHistory.push({
+            role: "model",
+            parts: [
+                { text: apiResponseText }]
+        });
+
     } catch (error) {
         console.log(error);
         messageElement.innerText = error.message;
